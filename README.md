@@ -152,13 +152,13 @@ GET http://api.openweathermap.org/data/2.5/weather?lat=4.6097&lon=-74.0817&appid
 
 | Campo | Tipo | Descripción |
 |-------|------|-------------|
-| `main.temp` | float | 🌡️ Temperatura actual en la unidad configurada (Celsius) |
-| `main.humidity` | int | 💧 Humedad relativa en porcentaje (0-100) |
+| `main.temp` | float | Temperatura actual en la unidad configurada (Celsius) |
+| `main.humidity` | int | Humedad relativa en porcentaje (0-100) |
 | `main.feels_like` | float | Sensación térmica |
 | `main.temp_min` | float | Temperatura mínima del momento |
 | `main.temp_max` | float | Temperatura máxima del momento |
 | `main.pressure` | int | Presión atmosférica en hPa |
-| `weather[0].description` | string | 📝 Descripción textual del clima (en español si se configura `lang=es`) |
+| `weather[0].description` | string | Descripción textual del clima (en español si se configura `lang=es`) |
 | `weather[0].main` | string | Grupo principal del clima (Clouds, Rain, Clear, etc.) |
 | `weather[0].icon` | string | Código del ícono del clima |
 | `wind.speed` | float | 💨 Velocidad del viento en m/s |
