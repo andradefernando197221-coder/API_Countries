@@ -10,61 +10,57 @@ FastAPI es un framework moderno y de alto rendimiento para construir APIs
 con Python 3.7+ basado en estándares como OpenAPI y JSON Schema.
 
 Características principales de FastAPI:
-- Rápido: Rendimiento similar a NodeJS y Go
-- Fácil: Diseñado para ser intuitivo
-- Robusto: Código listo para producción
-- Documentado: Genera docs automáticos (Swagger UI y ReDoc)
+- Rápido
+- Fácil
+- Robusto
+- Documentado (Swagger UI y ReDoc)
 
 Para ejecutar la aplicación:
     uvicorn main:app --reload
-
-Esto iniciará el servidor en http://localhost:8000
 
 Documentación automática disponible en:
     - Swagger UI: http://localhost:8000/docs
     - ReDoc: http://localhost:8000/redoc
 
-Autor: [Tu nombre]
+Autor: Fernando Andrade
 Fecha: Enero 2026
 =============================================================================
 """
 
-# FastAPI es el framework principal para crear la API
-# Importamos la clase FastAPI que será el núcleo de nuestra aplicación
+# =============================================================================
+# IMPORTS
+# =============================================================================
 from fastapi import FastAPI
 
-# Importamos el router del controlador de clima
-# Los routers permiten organizar los endpoints en módulos separados
+# Routers (controladores)
 from controllers.weathercontroller import router as weather_router
+from controllers.countries_controller import router as countries_router
 
 
 # =============================================================================
 # CONFIGURACIÓN DE LA APLICACIÓN
 # =============================================================================
-# Creamos la instancia principal de FastAPI
-# Esta instancia es el punto central que maneja todas las peticiones
 app = FastAPI(
-    title="Weather API",  # Título que aparece en la documentación
+    title="API de Consumo de Servicios Externos",
     description="""
-    ## API de Clima 🌤️
+    ## API de Consumo de APIs Externas 🌍🌤️
     
-    Esta API permite consultar información meteorológica de cualquier ciudad
-    del mundo utilizando los servicios de OpenWeatherMap.
+    Esta API demuestra el consumo de servicios externos utilizando
+    una arquitectura modular basada en controladores y servicios.
     
-    ### Funcionalidades:
-    * Obtener temperatura actual
-    * Consultar humedad
-    * Ver descripción del clima en español
+    ### Servicios disponibles:
+    * Clima (OpenWeatherMap)
+    * Países (REST Countries)
     
     ### Tecnologías utilizadas:
-    * FastAPI - Framework web
-    * httpx - Cliente HTTP asíncrono
-    * Pydantic - Validación de datos
-    * OpenWeatherMap API - Datos meteorológicos
+    * FastAPI
+    * Requests
+    * Pydantic
+    * APIs públicas externas
     """,
-    version="1.0.0",  # Versión de la API
+    version="1.1.0",
     contact={
-        "name": "Tu Nombre",
+        "name": "Fernando Andrade",
         "email": "tu@email.com"
     },
     license_info={
@@ -84,49 +80,32 @@ app = FastAPI(
     tags=["General"]
 )
 def home():
-    """
-    Endpoint de bienvenida.
-    
-    Este endpoint sirve como verificación de que la API está funcionando
-    correctamente. Es útil para health checks y monitoreo.
-    
-    Returns:
-        dict: Mensaje de bienvenida
-        
-    Ejemplo de respuesta:
-        {"message": "Welcome to the Weather API"}
-    """
     return {
-        "message": "Welcome to the Weather API",
+        "message": "Welcome to the External APIs Consumer",
         "docs": "Visita /docs para ver la documentación interactiva",
-        "version": "1.0.0"
+        "version": "1.1.0"
     }
 
 
 # =============================================================================
 # REGISTRO DE ROUTERS
 # =============================================================================
-# Incluimos el router del controlador de clima
-# Esto registra todas las rutas definidas en weathercontroller.py
-# 
-# Después de esto, las siguientes rutas estarán disponibles:
-# - GET /api/weather/{city} - Obtener clima de una ciudad
+# Weather API
 app.include_router(weather_router)
 
+# Countries API
+app.include_router(countries_router)
+
 
 # =============================================================================
-# NOTA SOBRE LA EJECUCIÓN
+# EJECUCIÓN LOCAL
 # =============================================================================
-# Este bloque solo se ejecuta si corremos el archivo directamente
-# En producción, usamos: uvicorn main:app --host 0.0.0.0 --port 8000
 if __name__ == "__main__":
     import uvicorn
-    
-    # Iniciamos el servidor de desarrollo
-    # reload=True reinicia automáticamente cuando hay cambios en el código
+
     uvicorn.run(
-        "main:app",  # Ruta al objeto app (archivo:variable)
-        host="127.0.0.1",  # Solo accesible localmente
-        port=8000,  # Puerto del servidor
-        reload=True  # Reinicio automático en desarrollo
+        "main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True
     )
